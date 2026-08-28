@@ -125,7 +125,10 @@ const DATA = {
       ],
       repo: "https://github.com/cuongdeverloper/GearXpert",
       live: "https://gearxpert.online/",
-      images: [],
+      images: [
+        "images/gearxpert-smartgear-ai.webp",
+        "images/gearxpert-device-detail.webp",
+      ],
     },
     {
       name: "OSA — One Scan Away",
