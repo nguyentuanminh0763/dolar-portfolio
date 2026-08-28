@@ -107,7 +107,12 @@ const DATA = {
         "Features: multi-step booking wizard, PayOS payment, JWT + Google OAuth, role-based access control, real-time chat and notifications, OpenAI chatbot.",
       ],
       repo: "https://github.com/fitlink-platform/fitlink-frontend",
-      images: [],
+      images: [
+        "images/fitlink-landing.webp",
+        "images/fitlink-booking-packages.webp",
+        "images/fitlink-booking-location.webp",
+        "images/fitlink-trainer-profile.webp",
+      ],
     },
     {
       name: "GearXpert",
