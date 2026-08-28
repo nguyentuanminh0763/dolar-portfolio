@@ -91,7 +91,7 @@ const DATA = {
         "React Native was my main assignment: I developed the *Property Management module* as part of the five-person Vietnam team, implementing the mobile screens from Figma designs. I also worked across the *Vue web app and the Node.js backend*.",
         "Built event management (CRUD), facility booking, Emergency Contact and Visitor Management, integrating REST APIs scoped by organization and site so that *tenant data stays isolated*. Tested and reported defects across mobile and web, then worked with the team to reproduce and verify fixes.",
       ],
-      images: ["images/iservice365-login.webp"],
+      images: ["images/iservice365-login.webp", "images/iservice365-technician-app.webp"],
     },
     {
       name: "Fit-Link Platform",
