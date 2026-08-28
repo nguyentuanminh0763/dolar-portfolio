@@ -29,7 +29,8 @@ const DATA = {
     { title: "Languages", items: ["JavaScript", "TypeScript", "Java", "SQL", "HTML", "CSS"] },
     {
       title: "Front-end",
-      items: ["React", "React Native", "Redux", "TailwindCSS", "Bootstrap", "i18next", "Figma → UI"],
+      // Vue isn't on your CV — it's here because of the iService365 web app.
+      items: ["React", "React Native", "Vue", "Redux", "TailwindCSS", "Bootstrap", "i18next", "Figma → UI"],
     },
     { title: "Back-end", items: ["Node.js", "Express.js", "Spring Boot"] },
     { title: "Databases", items: ["MySQL", "MongoDB", "Redis"] },
@@ -55,7 +56,7 @@ const DATA = {
       length: "7 months",
       company: "iService365 Platform, Philippines",
       role: "Freelance fullstack developer",
-      stack: "React Native",
+      stack: "React Native · Vue · Node.js",
     },
     {
       from: "04/2025",
@@ -84,10 +85,10 @@ const DATA = {
     {
       name: "iService365 Platform",
       meta: "02/2026 – 08/2026 · Team of 5 · Private client repo",
-      tags: ["React Native", "Figma → UI", "REST API", "Multi-tenant SaaS"],
+      tags: ["React Native", "Vue", "Node.js", "REST API", "Multi-tenant SaaS", "Figma → UI"],
       body: [
         "A *multi-tenant SaaS platform for property operations*, where property managers, security, cleaning and M&E providers all work on shared sites through separate, role-scoped apps.",
-        "I developed the *Property Management module* in React Native as part of the five-person Vietnam team, implementing the mobile screens from Figma designs.",
+        "React Native was my main assignment: I developed the *Property Management module* as part of the five-person Vietnam team, implementing the mobile screens from Figma designs. I also worked across the *Vue web app and the Node.js backend*.",
         "Built event management (CRUD), facility booking, Emergency Contact and Visitor Management, integrating REST APIs scoped by organization and site so that *tenant data stays isolated*. Tested and reported defects across mobile and web, then worked with the team to reproduce and verify fixes.",
       ],
       images: [],
