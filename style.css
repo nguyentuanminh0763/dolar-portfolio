@@ -357,6 +357,8 @@ main, .topbar, .footer { position: relative; z-index: 1; }
 }
 .collage > :first-child { grid-column: span 2; grid-row: span 2; }
 .collage > :nth-child(4) { grid-column: span 3; } /* 4th image becomes a banner */
+/* A lone screenshot fills the width uncropped instead of leaving column 3 empty. */
+.collage > :only-child { grid-column: 1 / -1; grid-row: auto; height: auto; min-height: 0; }
 
 .ph {
   display: grid;
