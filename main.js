@@ -115,7 +115,31 @@ $("[data-projects]").innerHTML = DATA.projects
 $$(".collage img").forEach((img) => {
   const tag = () => img.classList.add(img.naturalHeight > img.naturalWidth ? "is-tall" : "is-wide");
   img.complete && img.naturalWidth ? tag() : img.addEventListener("load", tag, { once: true });
+  img.tabIndex = 0; // reachable by keyboard, since it opens the lightbox
 });
+
+/* ── lightbox: click or Enter on any screenshot ───────────── */
+const lightbox = $("[data-lightbox]");
+const lightboxImg = $("img", lightbox);
+
+const openLightbox = (img) => {
+  lightboxImg.src = img.currentSrc || img.src;
+  lightboxImg.alt = img.alt;
+  lightbox.showModal();
+};
+
+document.addEventListener("click", (e) => {
+  const img = e.target.closest(".collage img");
+  if (img) openLightbox(img);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const img = document.activeElement?.closest?.(".collage img");
+  if (!img) return;
+  e.preventDefault();
+  openLightbox(img);
+});
+lightbox.addEventListener("click", () => lightbox.close()); // backdrop or image
 
 /* ── articles: hero carousel + grid (hidden when empty) ───── */
 const slide = (a) => `<a class="slide" href="${esc(a.url)}" target="_blank" rel="noopener">

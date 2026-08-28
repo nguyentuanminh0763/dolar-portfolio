@@ -375,11 +375,56 @@ main, .topbar, .footer { position: relative; z-index: 1; }
 }
 .collage img + img { margin-left: -10%; }
 
-/* Diagonal lift: first tile rides high, last sits low, the tall one anchors. */
-.collage img:first-child { transform: translateY(-11%); }
-.collage img:last-child { transform: translateY(11%); }
-.collage img.is-tall, .collage img:only-child { transform: none; }
+/* Diagonal lift: first tile rides high, last sits low, the tall one anchors.
+   Kept in --y so :hover can add its own lift without clobbering the offset. */
+.collage:has(img) img {
+  --y: 0%;
+  transform: translateY(var(--y));
+  cursor: zoom-in;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
+}
+.collage img:first-child { --y: -11%; }
+.collage img:last-child { --y: 11%; }
+.collage img.is-tall, .collage img:only-child { --y: 0%; }
 .collage img:only-child { flex-basis: 84%; }
+
+/* z-index 5 puts whichever tile you point at above .is-tall's 2. */
+.collage img:focus-visible {
+  transform: translateY(calc(var(--y) - 16px)) scale(1.045);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16), 0 40px 80px -20px rgba(0, 0, 0, 1);
+  z-index: 5;
+}
+/* Gated on a real pointer: on touch the hover state sticks after the tap that
+   opened the lightbox, leaving the tile lifted once you close it. */
+@media (hover: hover) {
+  .collage img:hover {
+    transform: translateY(calc(var(--y) - 16px)) scale(1.045);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16), 0 40px 80px -20px rgba(0, 0, 0, 1);
+    z-index: 5;
+  }
+}
+
+/* ─── lightbox ───────────────────────────────────────────── */
+.lightbox {
+  max-width: 94vw;
+  max-height: 94vh;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-out;
+  opacity: 0;
+  transition: opacity 0.25s, overlay 0.25s allow-discrete, display 0.25s allow-discrete;
+}
+.lightbox[open] { opacity: 1; }
+@starting-style { .lightbox[open] { opacity: 0; } }
+.lightbox::backdrop { background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(8px); }
+.lightbox img {
+  display: block;
+  max-width: 94vw;
+  max-height: 94vh;
+  width: auto;
+  border-radius: 14px;
+}
 
 .ph:first-child { grid-column: span 2; grid-row: span 2; }
 .ph {
