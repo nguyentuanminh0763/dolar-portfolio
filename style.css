@@ -429,22 +429,18 @@ main, .topbar, .footer { position: relative; z-index: 1; }
 .sitecard h3 { margin: 0 0 10px; font: 400 1rem/1 var(--sans); }
 .sitecard p { margin: 0; font: 400 0.75rem/1.9 var(--mono); color: var(--dim); }
 
-/* ─── reveal ─────────────────────────────────────────────────
-   Scroll-driven, no JS. Browsers without animation-timeline just
-   render everything visible — which is the correct fallback. */
-@keyframes reveal {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: none; }
-}
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .section__head, .display, .skill, .photo, .skills__note,
-    .work li, .project, .cards .slide, .footer__grid, .footer .socials {
-      animation: reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 55%;
-    }
+/* ─── reveal on scroll ───────────────────────────────────────
+   main.js adds .reveal to the targets and .in once they enter view.
+   Nothing is hidden under reduced motion, so those users still see
+   everything even though the class is applied. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(34px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms);
   }
+  .reveal.in { opacity: 1; transform: none; }
 }
 
 /* ─── responsive ─────────────────────────────────────────── */

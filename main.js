@@ -154,7 +154,37 @@ nav.onclick = (e) => {
   }
 };
 
-/* Scroll reveal is pure CSS (animation-timeline: view()) — see style.css. */
+/* ── scroll reveal ────────────────────────────────────────────
+   The huge top rootMargin keeps the root open far above the viewport, so an
+   element a fast scroll jumps clean over still reports as intersecting.
+   A plain viewport-sized root misses those and leaves whole sections blank. */
+const io = new IntersectionObserver(
+  (entries) =>
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("in");
+      io.unobserve(e.target);
+    }),
+  // Bottom margin stays 0: any inset would strand elements that sit inside it
+  // at max scroll — the footer socials live 56px off the bottom of the page.
+  { rootMargin: "100000px 0px 0px 0px" }
+);
+
+$$(
+  ".hero__title, .hero__tagline, .cta, .socials--hero, .carousel, .section__head," +
+    ".display, .skill, .photo, .skills__note, .work li, .project," +
+    ".cards .slide, .footer__grid, .footer .socials"
+).forEach((el) => {
+  el.classList.add("reveal");
+  io.observe(el);
+});
+
+// Cascade siblings instead of popping a whole group at once.
+$$(".hero__grid, .skills, .work, .cards").forEach((group) =>
+  [...group.children].forEach((el, i) =>
+    el.style.setProperty("--d", `${Math.min(i, 6) * 80}ms`)
+  )
+);
 
 /* ── nav active section ───────────────────────────────────── */
 const links = new Map($$(".topnav a").map((a) => [a.getAttribute("href").slice(1), a]));
