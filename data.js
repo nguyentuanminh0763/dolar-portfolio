@@ -60,8 +60,8 @@ const DATA = {
     },
     {
       from: "04/2025",
-      to: "10/2025",
-      length: "7 months",
+      to: "09/2025",
+      length: "6 months",
       company: "FPT Software Da Nang",
       role: "Fresher software engineer",
       stack: "React & Spring Boot",
@@ -75,7 +75,7 @@ const DATA = {
       stack: "TOEIC 645",
     },
   ],
-  workTotal: "1 year 2 months",
+  workTotal: "1 year 1 month",
 
   /* Drop screenshots into images/ and list them here, e.g.
      images: ["images/fitlink-1.png", "images/fitlink-2.png"]
