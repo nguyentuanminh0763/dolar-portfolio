@@ -56,7 +56,7 @@ const DATA = {
       length: "7 months",
       company: "iService365 Platform, Philippines",
       role: "Freelance fullstack developer",
-      stack: "React Native · Vue · Node.js",
+      stack: "React Native · Vue · Node.js · MongoDB",
     },
     {
       from: "04/2025",
@@ -85,7 +85,7 @@ const DATA = {
     {
       name: "iService365 Platform",
       meta: "02/2026 – 08/2026 · Team of 5 · Private client repo",
-      tags: ["React Native", "Vue", "Node.js", "REST API", "Multi-tenant SaaS", "Figma → UI"],
+      tags: ["React Native", "Vue", "Node.js", "MongoDB", "REST API", "Multi-tenant SaaS"],
       body: [
         "A *multi-tenant SaaS platform for property operations*, where property managers, security, cleaning and M&E providers all work on shared sites through separate, role-scoped apps.",
         "React Native was my main assignment: I developed the *Property Management module* as part of the five-person Vietnam team, implementing the mobile screens from Figma designs. I also worked across the *Vue web app and the Node.js backend*.",
