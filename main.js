@@ -20,6 +20,8 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.8 15.6 9.6 19c.5 0 .7-.2 1-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.5c.3-1.2-.4-1.7-1.3-1.4L1.9 9.9c-1.2.5-1.2 1.1-.2 1.4l4.6 1.4L17 6.3c.5-.3.9-.2.6.2z"/></svg>',
   facebook:
     '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H7.4V13h2.7v8z"/></svg>',
+  phone:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.4 3h3l1.5 3.8-1.9 1.4a12 12 0 0 0 5.8 5.8l1.4-1.9L20 13.6v3a1.7 1.7 0 0 1-1.9 1.7A15.6 15.6 0 0 1 4.7 4.9 1.7 1.7 0 0 1 6.4 3z"/></svg>',
   instagram:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>',
   link:
@@ -86,12 +88,23 @@ $("[data-projects]").innerHTML = DATA.projects
     (p) => `<article class="project">
       <div class="project__info">
         <h3>${esc(p.name)}</h3>
+        ${p.meta ? `<p class="project__meta">${esc(p.meta)}</p>` : ""}
         <div class="project__tags">${p.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</div>
         <div class="project__body">${p.body.map((t) => `<p>${md(t)}</p>`).join("")}</div>
-        <a class="project__link" href="${esc(p.url)}" target="_blank" rel="noopener"
-           aria-label="Open ${esc(p.name)} on GitHub">
-          <span class="round">${icon("github")}</span><span class="round">↗</span>
-        </a>
+        <div class="project__link">
+          ${
+            p.repo
+              ? `<a class="round" href="${esc(p.repo)}" target="_blank" rel="noopener"
+                    aria-label="${esc(p.name)} source code on GitHub">${icon("github")}</a>`
+              : ""
+          }
+          ${
+            p.live
+              ? `<a class="round" href="${esc(p.live)}" target="_blank" rel="noopener"
+                    aria-label="${esc(p.name)} live site">↗</a>`
+              : ""
+          }
+        </div>
       </div>
       ${collage(p)}
     </article>`
@@ -111,6 +124,8 @@ if (DATA.articles.length) {
   $("[data-articles]").innerHTML = html;
   $("[data-carousel]").hidden = false;
   $("[data-articles-section]").hidden = false;
+} else {
+  $$('a[href="#articles"]').forEach((a) => a.remove()); // no dead nav links
 }
 
 /* ── carousel arrows ──────────────────────────────────────── */

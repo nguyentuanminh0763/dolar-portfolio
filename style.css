@@ -17,6 +17,10 @@
 /* ─── base ───────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
+/* Author `display` rules beat the UA [hidden] rule, so pin it down —
+   .carousel is display:flex and would otherwise ignore its hidden attribute. */
+[hidden] { display: none !important; }
+
 html { scroll-behavior: smooth; scroll-padding-top: 96px; }
 
 body {
@@ -271,8 +275,10 @@ main, .topbar, .footer { position: relative; z-index: 1; }
   border-radius: var(--r);
   background: var(--card);
 }
-.skill:nth-child(2) { margin-left: clamp(0px, 2vw, 26px); }
-.skill:nth-child(4) { margin-left: clamp(0px, 12vw, 180px); }
+/* Repeating 0 / small / 0 / large indent, so the stagger holds
+   however many skill groups data.js declares. */
+.skill:nth-child(4n + 2) { margin-left: clamp(0px, 2vw, 30px); }
+.skill:nth-child(4n + 4) { margin-left: clamp(0px, 9vw, 140px); }
 .skill h3 { margin: 0 0 10px; font: 400 1.05rem/1 var(--sans); }
 .skill p { margin: 0; font: 400 0.78rem/1.85 var(--mono); color: var(--dim); }
 
@@ -320,6 +326,7 @@ main, .topbar, .footer { position: relative; z-index: 1; }
 
 .project__info { display: grid; gap: 18px; align-content: start; }
 .project__info h3 { margin: 0; font: 500 1.35rem/1.2 var(--sans); }
+.project__meta { margin: -8px 0 0; font: 400 0.72rem/1.4 var(--mono); color: var(--dimmer); }
 .project__tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .project__tags span {
   padding: 7px 15px;
@@ -333,7 +340,7 @@ main, .topbar, .footer { position: relative; z-index: 1; }
 .project__body em { color: var(--fg); font-weight: 400; }
 
 .project__link { display: flex; align-items: center; gap: 10px; width: fit-content; }
-.project__link .round:first-child { font-size: 0.8rem; }
+.project__link:empty { display: none; }
 
 .collage {
   display: grid;
