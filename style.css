@@ -350,12 +350,36 @@ main, .topbar, .footer { position: relative; z-index: 1; }
 }
 .collage img { width: 100%; height: auto; border-radius: 14px; }
 
-/* Landscape shots take two columns, portrait ones (phone mockups) take two
-   rows — main.js tags each image once it knows its natural dimensions. Mixing
-   a 1.9:1 dashboard with a 0.5:1 phone in equal cells looks broken otherwise. */
-.collage img.is-wide { grid-column: span 2; }
-.collage img.is-tall { grid-row: span 2; }
-.collage > img:only-child { grid-column: 1 / -1; }
+/* Real screenshots drop the grid for a layered stack: tiles overlap and sit at
+   different heights so the group reads as a composition, not three equal cells.
+   main.js tags each image is-wide / is-tall from its natural dimensions. */
+.collage:has(img) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding-block: 5%;
+}
+.collage:has(img) img {
+  flex: 0 1 48%;
+  width: auto;
+  min-width: 0; /* else the flex item floors at the image's intrinsic width */
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 30px 70px -18px rgba(0, 0, 0, 0.95);
+}
+/* Phone mockups sit in front, and skip the hairline — their own frame already
+   reads as an edge, so a ring just outlines the transparent-looking plate. */
+.collage img.is-tall {
+  flex-basis: 30%;
+  z-index: 2;
+  box-shadow: 0 30px 70px -18px rgba(0, 0, 0, 0.95);
+}
+.collage img + img { margin-left: -10%; }
+
+/* Diagonal lift: first tile rides high, last sits low, the tall one anchors. */
+.collage img:first-child { transform: translateY(-11%); }
+.collage img:last-child { transform: translateY(11%); }
+.collage img.is-tall, .collage img:only-child { transform: none; }
+.collage img:only-child { flex-basis: 84%; }
 
 .ph:first-child { grid-column: span 2; grid-row: span 2; }
 .ph {
