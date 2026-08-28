@@ -350,14 +350,14 @@ main, .topbar, .footer { position: relative; z-index: 1; }
 }
 .collage img { width: 100%; height: auto; border-radius: 14px; }
 
-/* Lead tile is always double-width; it only gets the tall 2x2 shape once there
-   are 3+ tiles, otherwise a wide screenshot next to a tall phone shot leaves an
-   empty 90px band underneath. :not(:nth-last-child(-n+2)) means "3 or more". */
-.collage > :first-child { grid-column: span 2; }
-.collage > :first-child:not(:nth-last-child(-n + 2)) { grid-row: span 2; }
-.collage > :only-child { grid-column: 1 / -1; }
-.collage > :nth-child(4) { grid-column: span 3; } /* 4th image becomes a banner */
+/* Landscape shots take two columns, portrait ones (phone mockups) take two
+   rows — main.js tags each image once it knows its natural dimensions. Mixing
+   a 1.9:1 dashboard with a 0.5:1 phone in equal cells looks broken otherwise. */
+.collage img.is-wide { grid-column: span 2; }
+.collage img.is-tall { grid-row: span 2; }
+.collage > img:only-child { grid-column: 1 / -1; }
 
+.ph:first-child { grid-column: span 2; grid-row: span 2; }
 .ph {
   display: grid;
   place-items: center;

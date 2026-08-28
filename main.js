@@ -111,6 +111,12 @@ $("[data-projects]").innerHTML = DATA.projects
   )
   .join("");
 
+/* Landscape screenshots span two collage columns, portrait ones two rows. */
+$$(".collage img").forEach((img) => {
+  const tag = () => img.classList.add(img.naturalHeight > img.naturalWidth ? "is-tall" : "is-wide");
+  img.complete && img.naturalWidth ? tag() : img.addEventListener("load", tag, { once: true });
+});
+
 /* ── articles: hero carousel + grid (hidden when empty) ───── */
 const slide = (a) => `<a class="slide" href="${esc(a.url)}" target="_blank" rel="noopener">
     <h3>${esc(a.title)}</h3>
