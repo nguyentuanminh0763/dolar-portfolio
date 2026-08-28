@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nguyen Tuan Minh — Full-stack Developer</title>
+<meta name="description" content="Full-stack developer building scalable web applications with React, Spring Boot and Node.js.">
+<meta name="theme-color" content="#0d0d0d">
+<meta property="og:title" content="Nguyen Tuan Minh — Full-stack Developer">
+<meta property="og:description" content="Full-stack developer building scalable web applications with React, Spring Boot and Node.js.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230d0d0d'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='700' fill='%23fff' text-anchor='middle'>M</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:ital,wght@0,300;0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="rings" aria-hidden="true">
+  <span class="ring ring--1"></span>
+  <span class="ring ring--2"></span>
+  <span class="ring ring--3"></span>
+  <span class="ring ring--4"></span>
+</div>
+
+<header class="topbar">
+  <a class="brand" href="#top"><span data-brand-1></span><span data-brand-2></span></a>
+  <nav class="topnav" data-nav>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#articles">Articles</a>
+    <a href="#contacts">Contacts</a>
+  </nav>
+  <button class="burger" type="button" aria-label="Menu" aria-expanded="false" data-burger>
+    <span></span><span></span>
+  </button>
+</header>
+
+<main id="top">
+
+  <!-- ── Hero ───────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero__grid">
+      <h1 class="hero__title"><span data-role-1></span></h1>
+      <a class="cta" href="#projects">
+        <span class="cta__pill">Projects</span>
+        <span class="cta__arrow" aria-hidden="true">→</span>
+      </a>
+      <p class="hero__tagline" data-tagline></p>
+      <h1 class="hero__title hero__title--2"><span data-role-2></span></h1>
+    </div>
+
+    <ul class="socials socials--hero" data-socials></ul>
+
+    <div class="carousel" data-carousel hidden>
+      <button class="round" type="button" data-car-prev aria-label="Previous article">←</button>
+      <div class="carousel__track" data-car-track></div>
+      <button class="round" type="button" data-car-next aria-label="Next article">→</button>
+    </div>
+  </section>
+
+  <!-- ── About ──────────────────────────────────────────── -->
+  <section class="section" id="about">
+    <div class="section__head">
+      <span class="label">... /About me ...</span>
+      <p class="lead" data-about-intro></p>
+    </div>
+
+    <div class="about">
+      <ul class="skills" data-skills></ul>
+      <figure class="photo">
+        <img data-photo alt="Portrait of Nguyen Tuan Minh" loading="lazy" width="480" height="600">
+      </figure>
+      <p class="skills__note">Some of my <em>favorite technologies, topics, or tools</em> that I worked with</p>
+    </div>
+  </section>
+
+  <!-- ── Work ───────────────────────────────────────────── -->
+  <section class="section section--work" id="work">
+    <h2 class="display display--right">Work</h2>
+    <ul class="work" data-work></ul>
+    <p class="work__total">Work experience<br><em data-work-total></em></p>
+  </section>
+
+  <!-- ── Projects ───────────────────────────────────────── -->
+  <section class="section" id="projects">
+    <span class="label label--center">... /Projects ...</span>
+    <div data-projects></div>
+  </section>
+
+  <!-- ── Articles ───────────────────────────────────────── -->
+  <section class="section" id="articles" data-articles-section hidden>
+    <h2 class="display display--right">Articles</h2>
+    <div class="cards" data-articles></div>
+  </section>
+
+</main>
+
+<!-- ── Footer ───────────────────────────────────────────── -->
+<footer class="footer" id="contacts">
+  <div class="footer__grid">
+    <div>
+      <h2 class="display footer__name"><span data-brand-1></span><span data-brand-2></span></h2>
+      <p class="footer__role">Full-stack<br>developer</p>
+    </div>
+    <div class="footer__right">
+      <span class="label">... /Contacts ...</span>
+      <nav class="footnav">
+        <a href="#top">Main</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#articles">Articles</a>
+      </nav>
+      <div class="card sitecard">
+        <h3>Site</h3>
+        <p data-footer-note></p>
+      </div>
+    </div>
+  </div>
+  <ul class="socials" data-socials></ul>
+</footer>
+
+<script src="data.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
