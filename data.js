@@ -36,7 +36,7 @@ const DATA = {
     { title: "Databases", items: ["MySQL", "MongoDB", "Redis"] },
     {
       title: "Architecture",
-      items: ["RESTful API", "Microservices", "Event-driven (Apache Kafka)"],
+      items: ["RESTful API", "Microservices", "Event-driven (Kafka)"],
     },
     {
       title: "DevOps & Testing",
