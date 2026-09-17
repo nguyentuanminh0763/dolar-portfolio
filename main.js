@@ -39,7 +39,6 @@ $("[data-tagline]").innerHTML = md(DATA.tagline);
 $("[data-about-intro]").innerHTML = md(DATA.about.intro);
 $("[data-photo]").src = DATA.about.photo;
 $("[data-work-total]").textContent = DATA.workTotal;
-$("[data-footer-note]").innerHTML = DATA.footerNote.map(esc).join("<br>");
 
 /* ── socials (hero + footer) ──────────────────────────────── */
 const socialsHTML = DATA.socials

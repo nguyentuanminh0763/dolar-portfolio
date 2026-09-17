@@ -159,6 +159,4 @@ const DATA = {
   /* Nothing written yet — the hero carousel and the Articles section both stay
      hidden while this is empty. Add { title, excerpt, url } to bring them back. */
   articles: [],
-
-  footerNote: ["Handcrafted by ME /", "Designed after Taisia Tsyganok /", "Powered by vanilla JS"],
 };
