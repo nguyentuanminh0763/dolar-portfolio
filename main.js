@@ -82,9 +82,9 @@ const collage = (p) => {
   return `<div class="collage">${tiles.join("")}</div>`;
 };
 
-$("[data-projects]").innerHTML = DATA.projects
-  .map(
-    (p) => `<article class="project">
+/* Rows alternate sides. The flip is set here, not by :nth-child, because the
+   overflow projects live inside <details> and would restart the count. */
+const card = (p, i) => `<article class="project${i % 2 ? " project--flip" : ""}">
       <div class="project__info">
         <h3>${esc(p.name)}</h3>
         ${p.meta ? `<p class="project__meta">${esc(p.meta)}</p>` : ""}
@@ -106,9 +106,22 @@ $("[data-projects]").innerHTML = DATA.projects
         </div>
       </div>
       ${collage(p)}
-    </article>`
-  )
-  .join("");
+    </article>`;
+
+/* Only the first few get the full treatment; the rest fold into a native
+   <details> — no JS toggle, still printable, still findable by Ctrl+F. */
+const FEATURED = 3;
+const cards = DATA.projects.map(card);
+const rest = cards.length - FEATURED;
+
+$("[data-projects]").innerHTML =
+  cards.slice(0, FEATURED).join("") +
+  (rest > 0
+    ? `<details class="more">
+         <summary>${rest} more project${rest > 1 ? "s" : ""}</summary>
+         ${cards.slice(FEATURED).join("")}
+       </details>`
+    : "");
 
 /* Landscape screenshots span two collage columns, portrait ones two rows. */
 $$(".collage img").forEach((img) => {
