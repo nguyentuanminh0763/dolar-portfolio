@@ -8,7 +8,7 @@ const DATA = {
   brand: ["Nguyen Tuan", "Minh"],
   role: ["Full-stack", "Developer"],
   tagline:
-    "My goal is to *write maintainable, clean and understandable code* — and to keep an AI-assisted workflow that stays consistent across sessions.",
+    "Software Engineer dedicated to *high-reliability systems, financial idempotency, and cloud-native architectures* — delivering scalable products with rigorous domain modeling.",
 
   about: {
     intro:
@@ -26,25 +26,24 @@ const DATA = {
 
   // Rendered as staggered cards. Add/remove groups freely.
   skills: [
-    { title: "Languages", items: ["JavaScript", "TypeScript", "Java", "SQL", "HTML", "CSS"] },
+    { title: "Languages", items: ["JavaScript (ESM)", "TypeScript", "Java", "SQL", "HTML5", "CSS3"] },
     {
       title: "Front-end",
-      // Vue isn't on your CV — it's here because of the iService365 web app.
-      items: ["React", "React Native", "Vue", "Redux", "TailwindCSS", "Bootstrap", "i18next", "Figma → UI"],
+      items: ["React 19", "React Native", "Vue", "Vite", "TailwindCSS", "TanStack Query", "Redux", "Figma → UI"],
     },
-    { title: "Back-end", items: ["Node.js", "Express.js", "Spring Boot"] },
-    { title: "Databases", items: ["MySQL", "MongoDB", "Redis"] },
+    { title: "Back-end", items: ["Node.js", "Express.js", "Spring Boot", "RESTful APIs", "Socket.IO (Auth Handshake)"] },
+    { title: "Databases & Cache", items: ["MongoDB (ACID Transactions)", "Redis (2-Tier Caching)", "MySQL"] },
     {
-      title: "Architecture",
-      items: ["RESTful API", "Microservices", "Event-driven (Kafka)"],
+      title: "Architecture & Security",
+      items: ["Microservices", "Event-driven", "RBAC & JWT (HttpOnly Cookie)", "Anti-IDOR & Concurrency Control"],
     },
     {
       title: "DevOps & Testing",
-      items: ["Docker", "Docker Compose", "GitHub Actions (CI/CD)", "Jest", "Postman"],
+      items: ["Docker (Multi-stage)", "Docker Compose (Replica Set)", "Azure DevOps Pipelines", "GitHub Actions", "Vitest", "Jest"],
     },
     {
       title: "AI-first workflow",
-      items: ["Claude Code", "Cursor", "OpenAI Codex", "GitHub Copilot", "Persistent rule & state files", "Decision journals"],
+      items: ["Claude Code", "Cursor", "Google Antigravity", "Decision journals", "Persistent architecture state"],
     },
   ],
 
@@ -98,15 +97,37 @@ const DATA = {
       ],
     },
     {
-      name: "Fit-Link Platform",
-      meta: "2024 – 2025 · Team of 5 · Team Leader",
-      tags: ["React 19", "Node.js", "Socket.IO", "MongoDB", "Redis", "GitHub Actions"],
-      body: [
-        "A *marketplace connecting students with personal trainers*, split into three role-based modules — Student, PT and Admin — over 30+ REST endpoints.",
-        "I led the team on architecture, review and docs, and personally coded the *core booking flow* — package, time slot, schedule, travel fee — plus the PT approval workflow. Compound MongoDB indexes on ptId + date + timeSlot prevent double-booking and keep availability queries fast.",
-        "Features: multi-step booking wizard, PayOS payment, JWT + Google OAuth, role-based access control, real-time chat and notifications, OpenAI chatbot.",
+      name: "FitLink Platform",
+      status: "Active Overhaul (2026)",
+      meta: "2024 – 2025 (Team of 5 · Leader) · 2026 (Solo Architecture & DevOps Overhaul)",
+      tags: ["React 19", "TanStack Query v5", "Node.js", "Express", "MongoDB (Replica Set)", "Redis", "Docker", "Azure DevOps", "Vitest", "PayOS"],
+      tabs: {
+        "Overview": [
+          "*Problem & Scope*: Marketplace platform connecting trainees with personal trainers across 3 role-based portals (Student, PT, Admin) with 30+ RESTful APIs.",
+          "*Role & Evolution*: Led 5-person team in 2025. In 2026, *independently re-engineered core architecture, security, and DevOps* to meet production-grade reliability.",
+          "*Execution*: Upgraded monolithic local setup into containerized micro-services with automated CI validation across all pull requests."
+        ],
+        "Backend & Data": [
+          "*Financial Idempotency*: Applied *MongoDB ACID Transactions with unique `(refId, refType)` constraints* ➔ Prevented duplicate wallet crediting on network retries and refresh spam.",
+          "*Concurrency Control*: Replaced app-level checks with *DB-level Compound Index (`pt + startTime`) + TTL* ➔ Eliminated slot race conditions under simultaneous bookings.",
+          "*2-Tier Resilient Caching*: Built *Redis cache with in-memory fallback* and `X-Cache` response headers ➔ Maintained API uptime during cache node failures."
+        ],
+        "Frontend & UX": [
+          "*Performance & Code-Splitting*: Built with *React 19 + Vite 6*, lazy-loading *42 distinct routes* ➔ Significantly reduced initial bundle footprint by serving route assets on demand.",
+          "*Server State Management*: Implemented *TanStack Query v5* with stale-while-revalidate caching ➔ Minimized duplicate network calls across page transitions.",
+          "*Interactive Experience*: Integrated *FullCalendar* for schedule sync, *MapLibre & Leaflet* for geolocation PT discovery, and *Socket.IO* for instant messaging."
+        ],
+        "DevOps & Security": [
+          "*Protocol Security*: Enforced *JWT HttpOnly cookie verification at Socket.IO handshake* ➔ Closed unauthorized WebSocket room access and prevented sender impersonation.",
+          "*Container Optimization*: Crafted *multi-stage Dockerfiles* (Nginx SPA + non-root Node Alpine) ➔ Streamlined production images down to *~100MB (FE)* and *~375MB (BE)*.",
+          "*Automated CI Pipeline*: Orchestrated *Azure DevOps Pipeline + Vitest* on self-hosted runner ➔ Validated lint, unit tests, Babel transpilation, and Docker packaging in *~1m 07s*."
+        ]
+      },
+      body: [],
+      repos: [
+        { label: "Frontend Repo", url: "https://github.com/nguyentuanminh0763/fitlink-portal" },
+        { label: "Backend Repo", url: "https://github.com/nguyentuanminh0763/fitlink-api" }
       ],
-      repo: "https://github.com/fitlink-platform/fitlink-frontend",
       images: [
         "images/fitlink-landing.webp",
         "images/fitlink-booking-packages.webp",

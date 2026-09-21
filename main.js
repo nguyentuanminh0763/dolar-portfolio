@@ -84,19 +84,57 @@ const collage = (p) => {
 
 /* Rows alternate sides. The flip is set here, not by :nth-child, because the
    overflow projects live inside <details> and would restart the count. */
-const card = (p, i) => `<article class="project${i % 2 ? " project--flip" : ""}">
+const card = (p, i) => {
+  const hasTabs = p.tabs && Object.keys(p.tabs).length > 0;
+  const tabKeys = hasTabs ? Object.keys(p.tabs) : [];
+  
+  const renderContent = () => {
+    if (!hasTabs) {
+      return `<div class="project__body">${p.body.map((t) => `<p>${md(t)}</p>`).join("")}</div>`;
+    }
+    
+    const navHtml = `<div class="project__tabs-nav">
+      ${tabKeys.map((k, idx) => `<button type="button" class="tab-btn ${idx === 0 ? 'is-active' : ''}" data-tab="${idx}">${esc(k)}</button>`).join("")}
+    </div>`;
+
+    const panelsHtml = tabKeys.map((k, idx) => `
+      <div class="project__body tab-panel ${idx === 0 ? '' : 'is-hidden'}" data-panel="${idx}">
+        ${p.tabs[k].map((t) => `<p>${md(t)}</p>`).join("")}
+      </div>
+    `).join("");
+
+    return navHtml + panelsHtml;
+  };
+
+  const renderRepos = () => {
+    if (p.repos && p.repos.length > 0) {
+      return `<div class="repo-dropdown">
+        <button type="button" class="round repo-toggle" aria-label="View source code on GitHub" title="View Repositories">
+          ${icon("github")}
+        </button>
+        <div class="repo-menu">
+          ${p.repos.map(r => `<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.label)} ↗</a>`).join("")}
+        </div>
+      </div>`;
+    }
+    if (p.repo) {
+      return `<a class="round" href="${esc(p.repo)}" target="_blank" rel="noopener"
+                 aria-label="${esc(p.name)} source code on GitHub">${icon("github")}</a>`;
+    }
+    return "";
+  };
+
+  return `<article class="project${i % 2 ? " project--flip" : ""}">
       <div class="project__info">
-        <h3>${esc(p.name)}</h3>
+        <div class="project__head">
+          <h3>${esc(p.name)}</h3>
+          ${p.status ? `<span class="project__status"><span class="pulse-dot"></span>${esc(p.status)}</span>` : ""}
+        </div>
         ${p.meta ? `<p class="project__meta">${esc(p.meta)}</p>` : ""}
         <div class="project__tags">${p.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</div>
-        <div class="project__body">${p.body.map((t) => `<p>${md(t)}</p>`).join("")}</div>
+        ${renderContent()}
         <div class="project__link">
-          ${
-            p.repo
-              ? `<a class="round" href="${esc(p.repo)}" target="_blank" rel="noopener"
-                    aria-label="${esc(p.name)} source code on GitHub">${icon("github")}</a>`
-              : ""
-          }
+          ${renderRepos()}
           ${
             p.live
               ? `<a class="round" href="${esc(p.live)}" target="_blank" rel="noopener"
@@ -107,6 +145,7 @@ const card = (p, i) => `<article class="project${i % 2 ? " project--flip" : ""}"
       </div>
       ${collage(p)}
     </article>`;
+};
 
 /* Only the first few get the full treatment; the rest fold into a native
    <details> — no JS toggle, still printable, still findable by Ctrl+F. */
@@ -141,6 +180,29 @@ const openLightbox = (img) => {
 };
 
 document.addEventListener("click", (e) => {
+  const repoToggle = e.target.closest(".repo-toggle");
+  if (repoToggle) {
+    const dropdown = repoToggle.closest(".repo-dropdown");
+    const menu = $(".repo-menu", dropdown);
+    const isOpen = menu.classList.contains("is-open");
+    $$(".repo-menu").forEach(m => m.classList.remove("is-open"));
+    if (!isOpen) menu.classList.add("is-open");
+    return;
+  }
+  // Close open dropdowns if clicking outside
+  if (!e.target.closest(".repo-dropdown")) {
+    $$(".repo-menu").forEach(m => m.classList.remove("is-open"));
+  }
+
+  const tabBtn = e.target.closest(".tab-btn");
+  if (tabBtn) {
+    const parent = tabBtn.closest(".project__info");
+    const targetIdx = tabBtn.dataset.tab;
+    $$(".tab-btn", parent).forEach((btn) => btn.classList.toggle("is-active", btn === tabBtn));
+    $$(".tab-panel", parent).forEach((pnl) => pnl.classList.toggle("is-hidden", pnl.dataset.panel !== targetIdx));
+    return;
+  }
+
   const img = e.target.closest(".collage img");
   if (img) openLightbox(img);
 });
