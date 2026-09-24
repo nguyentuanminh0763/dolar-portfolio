@@ -32,7 +32,7 @@ const DATA = {
       items: ["React 19", "React Native", "Vue", "Vite", "TailwindCSS", "TanStack Query", "Redux", "Figma → UI"],
     },
     { title: "Back-end", items: ["Node.js", "Express.js", "Spring Boot", "RESTful APIs", "Socket.IO (Auth Handshake)"] },
-    { title: "Databases & Cache", items: ["MongoDB (ACID Transactions)", "Redis (2-Tier Caching)", "MySQL"] },
+    { title: "Databases & Cache", items: ["MongoDB (ACID Transactions)", "Redis (Cache-Aside)", "MySQL"] },
     {
       title: "Architecture & Security",
       items: ["Microservices", "Event-driven", "RBAC & JWT (HttpOnly Cookie)", "Anti-IDOR & Concurrency Control"],
@@ -98,32 +98,43 @@ const DATA = {
     },
     {
       name: "FitLink Platform",
-      status: "Active Overhaul (2026)",
-      meta: "2024 – 2025 (Team of 5 · Leader) · 2026 (Solo Architecture & DevOps Overhaul)",
-      tags: ["React 19", "TanStack Query v5", "Node.js", "Express", "MongoDB (Replica Set)", "Redis", "Docker", "Azure DevOps", "Vitest", "PayOS"],
+      status: "Live · 2026 overhaul",
+      meta: "2024 – 2025 · Team of 5 · Team Leader  ·  2026 · Solo audit & production deploy",
+      tags: ["React 19", "TanStack Query v5", "Node.js", "Express", "MongoDB", "Redis", "Socket.IO", "PayOS", "Docker", "Azure DevOps", "Vitest"],
       tabs: {
         "Overview": [
-          "*Problem & Scope*: Marketplace platform connecting trainees with personal trainers across 3 role-based portals (Student, PT, Admin) with 30+ RESTful APIs.",
-          "*Role & Evolution*: Led 5-person team in 2025. In 2026, *independently re-engineered core architecture, security, and DevOps* to meet production-grade reliability.",
-          "*Execution*: Upgraded monolithic local setup into containerized micro-services with automated CI validation across all pull requests."
+          "A marketplace connecting students with personal trainers: *three role-based portals* (Student, PT, Admin), booking with time-slot scheduling, PayOS payment, trainer wallets and payouts, real-time chat and notifications.",
+          "*2024 – 2025:* I led a five-person student team and wrote about 60% of the commits, including the core booking flow and the PT approval workflow. The project stopped when the course ended.",
+          "*2026:* I forked it, audited the code with fresh eyes, fixed what was dangerous, and shipped it to production at *fitlink.io.vn*. I kept a written list of what is still open, so the known gaps are documented too."
         ],
-        "Backend & Data": [
-          "*Financial Idempotency*: Applied *MongoDB ACID Transactions with unique `(refId, refType)` constraints* ➔ Prevented duplicate wallet crediting on network retries and refresh spam.",
-          "*Concurrency Control*: Replaced app-level checks with *DB-level Compound Index (`pt + startTime`) + TTL* ➔ Eliminated slot race conditions under simultaneous bookings.",
-          "*2-Tier Resilient Caching*: Built *Redis cache with in-memory fallback* and `X-Cache` response headers ➔ Maintained API uptime during cache node failures."
+        "Leading the team": [
+          "*Planning:* ran Agile sprints with the backlog and task ownership on *Notion*. The system was split into three role modules so that each member owned a vertical slice end to end.",
+          "*Contracts first:* defined the REST API contracts (30+ endpoints) before implementation, so frontend and backend work could run in parallel without blocking each other.",
+          "*Quality:* reviewed pull requests and kept the architecture notes and technical documentation for the team."
         ],
-        "Frontend & UX": [
-          "*Performance & Code-Splitting*: Built with *React 19 + Vite 6*, lazy-loading *42 distinct routes* ➔ Significantly reduced initial bundle footprint by serving route assets on demand.",
-          "*Server State Management*: Implemented *TanStack Query v5* with stale-while-revalidate caching ➔ Minimized duplicate network calls across page transitions.",
-          "*Interactive Experience*: Integrated *FullCalendar* for schedule sync, *MapLibre & Leaflet* for geolocation PT discovery, and *Socket.IO* for instant messaging."
+        "Booking & money": [
+          "*No double-booking:* the guarantee lives in the database, not in an if-check — a *unique index on trainer + start time* plus a TTL index that releases unpaid holds. Two simultaneous requests cannot both win.",
+          "*Pay once, credit once:* payment confirmation re-verifies with PayOS on the server, then credits the trainer wallet inside a *MongoDB transaction* guarded by a unique reference. Refreshing the result page ten times still credits the wallet only once.",
+          "*Price on the server:* the order amount is always recomputed server-side. The 2026 audit found the client could override it, and that override was removed."
         ],
-        "DevOps & Security": [
-          "*Protocol Security*: Enforced *JWT HttpOnly cookie verification at Socket.IO handshake* ➔ Closed unauthorized WebSocket room access and prevented sender impersonation.",
-          "*Container Optimization*: Crafted *multi-stage Dockerfiles* (Nginx SPA + non-root Node Alpine) ➔ Streamlined production images down to *~100MB (FE)* and *~375MB (BE)*.",
-          "*Automated CI Pipeline*: Orchestrated *Azure DevOps Pipeline + Vitest* on self-hosted runner ➔ Validated lint, unit tests, Babel transpilation, and Docker packaging in *~1m 07s*."
+        "2026 audit": [
+          "Re-read the codebase as a reviewer and found *four critical issues*: an unauthenticated Socket.IO handshake, stored XSS in notifications, client-side price tampering, and IDOR on transactions. The first two *chained into a full account takeover* without any login. All four are fixed.",
+          "Fixed quieter bugs that only show up with real data: pagination returned the page size as the total (88 of 100 trainers were unreachable), and editing one trainer wiped the cache for all of them.",
+          "Added a *Redis cache-aside* layer with an in-memory fallback so a Redis outage cannot take the API down. Measured on a cache hit: *33 ms → 3.4 ms*."
+        ],
+        "Shipping it": [
+          "*Multi-stage Docker images* (Nginx SPA, non-root Node), plus Docker Compose running MongoDB as a replica set so that transactions also work locally.",
+          "*Same-origin design:* Nginx reverse-proxies /api and /socket.io, so the browser sees a single origin — no CORS preflight, and cookies just work.",
+          "*CI on Azure DevOps* (install → Vitest → build → push image to ACR). Deploy stays manual on *Azure Container Apps* behind Cloudflare: I chose to understand each step before automating it."
+        ],
+        "Still open": [
+          "*PayOS webhook:* if a user closes the tab right after paying, the order stays pending. Planned fix: a signed webhook plus a sweep job for stale payments.",
+          "*Rate limiting and helmet* on auth routes, and Joi validation on the money routes.",
+          "I keep this list public on purpose: knowing what is still broken is part of owning a system."
         ]
       },
       body: [],
+      live: "https://fitlink.io.vn",
       repos: [
         { label: "Frontend Repo", url: "https://github.com/nguyentuanminh0763/fitlink-portal" },
         { label: "Backend Repo", url: "https://github.com/nguyentuanminh0763/fitlink-api" }
