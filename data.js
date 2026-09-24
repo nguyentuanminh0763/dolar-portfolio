@@ -97,40 +97,37 @@ const DATA = {
       ],
     },
     {
-      name: "FitLink Platform",
-      status: "Live · 2026 overhaul",
-      meta: "2024 – 2025 · Team of 5 · Team Leader  ·  2026 · Solo audit & production deploy",
-      tags: ["React 19", "TanStack Query v5", "Node.js", "Express", "MongoDB", "Redis", "Socket.IO", "PayOS", "Docker", "Azure DevOps", "Vitest"],
+      name: "FitLink — Personal Trainer Marketplace",
+      status: "Live",
+      meta: "2024 – 2025 · Team of 5 · Team Lead & Full-stack Developer  ·  2026 · Independent enhancements",
+      tags: ["React", "TanStack Query", "Node.js", "Express", "MongoDB", "Redis (Upstash)", "JWT", "Socket.IO", "PayOS", "n8n", "OpenAI", "Docker", "Azure DevOps", "Cloudflare Workers"],
       tabs: {
         "Overview": [
-          "A marketplace connecting students with personal trainers: *three role-based portals* (Student, PT, Admin), booking with time-slot scheduling, PayOS payment, trainer wallets and payouts, real-time chat and notifications.",
-          "*2024 – 2025:* I led a five-person student team and wrote about 60% of the commits, including the core booking flow and the PT approval workflow. The project stopped when the course ended.",
-          "*2026:* I forked it, audited the code with fresh eyes, fixed what was dangerous, and shipped it to production at *fitlink.io.vn*. I kept a written list of what is still open, so the known gaps are documented too."
+          "A web platform with *three role-based portals* — Student, Personal Trainer and Admin — covering trainer discovery, training packages, scheduling, learning materials, payments and real-time messaging.",
+          "*2024 – 2025:* built as a five-person team, which I led. *2026:* I continued on my own — enhancements, containerization and a production deployment at *fitlink.io.vn*."
         ],
-        "Leading the team": [
-          "*Planning:* ran Agile sprints with the backlog and task ownership on *Notion*. The system was split into three role modules so that each member owned a vertical slice end to end.",
-          "*Contracts first:* defined the REST API contracts (30+ endpoints) before implementation, so frontend and backend work could run in parallel without blocking each other.",
-          "*Quality:* reviewed pull requests and kept the architecture notes and technical documentation for the team."
+        "Leadership": [
+          "Led a five-person team, turning *gym and PT research into use cases and sprint priorities*.",
+          "Set up the project structure and Git conventions, assigned tasks by each member's strengths, and tracked progress in *Notion*.",
+          "Reviewed pull requests and helped teammates debug implementation issues."
         ],
-        "Booking & money": [
-          "*No double-booking:* the guarantee lives in the database, not in an if-check — a *unique index on trainer + start time* plus a TTL index that releases unpaid holds. Two simultaneous requests cannot both win.",
-          "*Pay once, credit once:* payment confirmation re-verifies with PayOS on the server, then credits the trainer wallet inside a *MongoDB transaction* guarded by a unique reference. Refreshing the result page ten times still credits the wallet only once.",
-          "*Price on the server:* the order amount is always recomputed server-side. The 2026 audit found the client could override it, and that override was removed."
+        "Frontend": [
+          "Owned the *trainer discovery-to-payment flow* in React — from finding a trainer to choosing a package, a schedule and paying.",
+          "Organized API calls into reusable service modules, and introduced *route-level code splitting* during the 2026 enhancements."
         ],
-        "2026 audit": [
-          "Re-read the codebase as a reviewer and found *four critical issues*: an unauthenticated Socket.IO handshake, stored XSS in notifications, client-side price tampering, and IDOR on transactions. The first two *chained into a full account takeover* without any login. All four are fixed.",
-          "Fixed quieter bugs that only show up with real data: pagination returned the page size as the total (88 of 100 trainers were unreachable), and editing one trainer wiped the cache for all of them.",
-          "Added a *Redis cache-aside* layer with an in-memory fallback so a Redis outage cannot take the API down. Measured on a cache hit: *33 ms → 3.4 ms*."
+        "Backend": [
+          "Designed and implemented the *booking, payment and PT wallet* workflows.",
+          "PayOS payment status is *verified on the server*, and wallet crediting is *idempotent* — MongoDB transactions with unique ledger references, so a payment is credited exactly once.",
+          "*Caching on both sides:* TanStack Query in the browser, Upstash Redis on the server, with configurable expiration and backend invalidation whenever a PT profile or package changes."
         ],
-        "Shipping it": [
-          "*Multi-stage Docker images* (Nginx SPA, non-root Node), plus Docker Compose running MongoDB as a replica set so that transactions also work locally.",
-          "*Same-origin design:* Nginx reverse-proxies /api and /socket.io, so the browser sees a single origin — no CORS preflight, and cookies just work.",
-          "*CI on Azure DevOps* (install → Vitest → build → push image to ACR). Deploy stays manual on *Azure Container Apps* behind Cloudflare: I chose to understand each step before automating it."
+        "AI": [
+          "Built an *n8n assistant* on OpenAI that reads product knowledge, consultation rules and response guidelines from *Google Docs* — the content can change without touching the code.",
+          "Connected the workflow to the app through an Express API and a webhook."
         ],
-        "Still open": [
-          "*PayOS webhook:* if a user closes the tab right after paying, the order stays pending. Planned fix: a signed webhook plus a sweep job for stale payments.",
-          "*Rate limiting and helmet* on auth routes, and Joi validation on the money routes.",
-          "I keep this list public on purpose: knowing what is still broken is part of owning a system."
+        "DevOps": [
+          "Containerized the application with *Docker and Nginx*.",
+          "Configured *Azure Pipelines* for tests, builds and image publishing to Azure Container Registry.",
+          "Set up a *Cloudflare Worker* reverse proxy for custom-domain access."
         ]
       },
       body: [],
